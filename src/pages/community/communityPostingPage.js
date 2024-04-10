@@ -1,0 +1,38 @@
+import React from "react";
+
+import * as API from "../../utils/api";
+import CreatePost from "../../components/Post/CreatePost";
+
+export default function communityPostingPage() {
+  const handleSubmit = async (post) => {
+    const { title, content } = post;
+
+    if (!(title && content)) {
+      if (!title) {
+        alert("제목이 비었습니다.");
+        return;
+      }
+      alert("내용이 비었습니다.");
+      return;
+    }
+
+    try {
+      const res = await API.post("/post", {
+        title,
+        content,
+      });
+
+      console.log(res); //debug//
+      alert("게시물이 등록되었습니다! 😁");
+    } catch (err) {
+      console.log(err.response.data); //debug//
+      alert("게시물이 등록되지 않았습니다. 😭");
+    }
+  };
+
+  return (
+    <>
+      <CreatePost onSubmit={handleSubmit} />
+    </>
+  );
+}

@@ -1,0 +1,25 @@
+.navbar {
+  width: 100%;
+  padding: 15px 0px;
+  margin-bottom: 15px;
+  background-color: rgb(181, 194, 217);
+
+  text-align: right;
+
+}
+
+.MenuName {
+  font-weight: bold;
+  color:yellow;
+}
+
+.navDivison {
+  padding-top: 10px;
+}
+
+.navbarMenu {
+  margin: 8px;
+  
+  color:white;
+  text-decoration:none;
+}
