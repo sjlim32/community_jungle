@@ -7,7 +7,6 @@ import LogIn from "./pages/user/login";
 import SignUp from "./pages/user/signup";
 import CommunityPostingPage from "./pages/community/communityPostingPage";
 import CommunitySinglePage from "./pages/community/communitySinglePage";
-// import GetPostOne from "./components/Post/GetPostOne";
 
 function App() {
   const ROUTES = {

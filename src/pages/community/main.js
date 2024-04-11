@@ -15,10 +15,18 @@ export default function Main() {
   }, []);
 
   return (
-    <>
-      <h1>메인페이지</h1>
-      <Link to="/main/posting">글쓰기</Link>
+    <div className="w-screen min-h-120 max-h-screen text-center flex flex-col text-custom-dark">
+      <p className="w-screen h-36 mb-4 flex justify-center items-center">
+        <Link
+          className="w-36 h-16 bg-white text-3xl flex justify-center items-center 
+          border-4 border-custom-dark rounded-3xl 
+          hover:text-white hover:bg-yellow hover:border-orange active:bg-gray active:border-black"
+          to="/main/posting"
+        >
+          글쓰기
+        </Link>
+      </p>
       <GetPostList posts={postList} />
-    </>
+    </div>
   );
 }
