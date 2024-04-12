@@ -1,13 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-export default function CreatePost({ onSubmit }) {
+import * as API from "../../../utils/api";
+
+export default function ModifyPost({ onSubmit, post_id }) {
   const [titleValid, setTitleValid] = useState(false);
   const [contentValid, setContentValid] = useState(false);
 
   const formRef = useRef();
   const titleRef = useRef();
   const contentRef = useRef();
+
+  const [pastPose, setPastPost] = useState("");
 
   const handleInputChange = (ref) => {
     const inputLength = ref.current.value.length;
@@ -19,7 +23,18 @@ export default function CreatePost({ onSubmit }) {
     }
   };
 
-  const submitPost = (e) => {
+  useEffect(() => {
+    API.get(`/community/post/${post_id}`)
+      .then((res) => {
+        setPastPost(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert("게시물 정보를 받아오지 못했습니다. 😱");
+      });
+  }, [post_id]);
+
+  const submitModifyPost = (e) => {
     e.preventDefault();
 
     const title = titleRef.current.value;
@@ -62,6 +77,7 @@ export default function CreatePost({ onSubmit }) {
             placeholder="제목을 입력해 주세요."
             maxlength="50"
             autoComplete="off"
+            defaultValue={pastPose.title}
             required
           ></input>
           {titleValid && <p className="pt-2 text-2xl text-center">제목은 0자 이상, 50자 이하로 입력해 주세요.</p>}
@@ -84,6 +100,7 @@ export default function CreatePost({ onSubmit }) {
             maxlength="500"
             placeholder="내용을 입력해 주세요."
             autoComplete="off"
+            defaultValue={pastPose.content}
             required
           ></textarea>
           {contentValid && (
@@ -95,17 +112,17 @@ export default function CreatePost({ onSubmit }) {
           >
             <button
               className="w-36 h-16 text-3xl flex justify-center items-center text-yellow-500
-                border-2 rounded-2xl border-yellow-500 active:border-black
-                transition duration-300 hover:text-custom-dark hover:bg-yellow-500 active:bg-gray"
-              onClick={submitPost}
+              border-2 rounded-2xl border-yellow-500 active:border-black
+              transition duration-300 hover:text-custom-dark hover:bg-yellow-500 active:bg-gray"
+              onClick={submitModifyPost}
             >
-              등록 하기
+              수정 하기
             </button>
             <Link
               className="w-36 h-16 text-3xl flex justify-center items-center text-yellow-500
-                border-2 rounded-2xl border-yellow-500 active:border-black
-                transition duration-300 hover:text-custom-dark hover:bg-yellow-500 active:bg-gray"
-              to="/main"
+              border-2 rounded-2xl border-yellow-500 active:border-black
+              transition duration-300 hover:text-custom-dark hover:bg-yellow-500 active:bg-gray"
+              to={`/main/post/${post_id}`}
             >
               뒤로 가기
             </Link>

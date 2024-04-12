@@ -10,17 +10,8 @@ export default function CommunityPostingPage() {
   const handleSubmit = async (post) => {
     const { title, content } = post;
 
-    if (!(title && content)) {
-      if (!title) {
-        alert("제목이 비었습니다.");
-        return;
-      }
-      alert("내용이 비었습니다.");
-      return;
-    }
-
     try {
-      const res = await API.post("/post", {
+      const res = await API.post("/community/post", {
         title,
         content,
       });

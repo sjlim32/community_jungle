@@ -1,10 +1,9 @@
 import axios from "axios";
 
 // const serverUrl = process.env.REACT_APP_CLIENT_PORT;
-// const serverUrl = "http://kdt-ai6-team07.elicecoding.com/api";
 // const serverUrl = "/api"
 
-const serverUrl = `${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/community`;
+const serverUrl = `${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}`;
 
 // endpoint : serverUrl 뒤에 오는 path
 // ex) 로그인일 때, endpoint는 '/login'
@@ -32,7 +31,7 @@ async function post(endpoint, data) {
   return axios.post(serverUrl + endpoint, bodyData, {
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
 }
