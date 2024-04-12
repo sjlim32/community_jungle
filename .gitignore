@@ -15,6 +15,10 @@ Icon
 
 
 # Thumbnails
+*.crt
+*.csr
+*.key
+*.pem
 ._*
 
 # Files that might appear in the root of a volume
