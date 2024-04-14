@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import * as API from "../../../utils/api";
 
-export default function ModifyPost({ onSubmit, post_id }) {
+export default function ModifyPost({ onSubmit, postId }) {
   const navigate = useNavigate();
 
   const [titleValid, setTitleValid] = useState(false);
@@ -15,6 +15,7 @@ export default function ModifyPost({ onSubmit, post_id }) {
   const titleRef = useRef();
   const contentRef = useRef();
 
+  //* JS animation 옵션
   const handleInputChange = (ref) => {
     const inputLength = ref.current.value.length;
     if (ref === titleRef) {
@@ -25,30 +26,29 @@ export default function ModifyPost({ onSubmit, post_id }) {
     }
   };
 
+  //* 최초 page loading
   useEffect(() => {
-    const getUser = async () => {
-      const userInfo = await API.get(`/community/user/username`);
-      serUser(userInfo.data._id);
-    };
-    getUser();
-    console.log(`user`, user);
+    const fetchPost = async () => {
+      try {
+        const userInfo = await API.get(`/community/user/username`);
+        serUser(userInfo.data._id);
 
-    API.get(`/community/post/${post_id}`)
-      .then((res) => {
-        console.log(`post`, res);
-        if (user === res.data.writer_id) {
+        const res = await API.get(`/community/post/${postId}`);
+
+        if (userInfo.data._id === res.data.writer_id) {
           setPastPost(res.data);
         } else {
-          navigate(-1);
           alert(`게시물 작성자 본인만 수정할 수 있습니다.`);
         }
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        alert("게시물 정보를 받아오지 못했습니다. 😱");
-      });
-  }, [user, post_id, navigate]);
+      } catch (err) {
+        alert(`${err.response.data.reason} 😱`);
+      }
+    };
+    navigate(`/main/post/${postId}`);
+    fetchPost();
+  }, [user, postId, navigate]);
 
+  //* 게시물 수정 API
   const submitModifyPost = (e) => {
     e.preventDefault();
 
@@ -90,7 +90,7 @@ export default function ModifyPost({ onSubmit, post_id }) {
             onChange={() => handleInputChange(titleRef)}
             ref={titleRef}
             placeholder="제목을 입력해 주세요."
-            maxlength="50"
+            maxLength="50"
             autoComplete="off"
             defaultValue={pastPose.title}
             required
@@ -114,7 +114,7 @@ export default function ModifyPost({ onSubmit, post_id }) {
             name="content"
             onChange={() => handleInputChange(contentRef)}
             ref={contentRef}
-            maxlength="500"
+            maxLength="500"
             placeholder="내용을 입력해 주세요."
             autoComplete="off"
             defaultValue={pastPose.content}
@@ -139,7 +139,7 @@ export default function ModifyPost({ onSubmit, post_id }) {
               className="w-36 h-16 text-3xl flex justify-center items-center text-yellow-500
               border-2 rounded-2xl border-yellow-500 active:border-black
               transition duration-300 hover:text-custom-dark hover:bg-yellow-500 active:bg-gray"
-              to={`/main/post/${post_id}`}
+              to={`/main/post/${postId}`}
             >
               뒤로 가기
             </Link>

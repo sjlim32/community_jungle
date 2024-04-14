@@ -39,7 +39,7 @@ export default function SignInPage({ onLogin }) {
 
       console.log("singUp Complete ! =", res.data.id, res.data.nickname); //debug
       alert("정상적으로 가입되었습니다! 🥰");
-      // navigate("/main");
+      toggle();
     } catch (err) {
       console.log(err.response.data.message, err); //debug
       alert("가입에 실패했습니다. 😧");

@@ -20,14 +20,14 @@ export default function CommunityPostingPage() {
         writer: writer.data,
       });
 
-      console.log(res); //debug//
       alert("게시물이 등록되었습니다! 😁");
+      console.log("등록된 게시물", res.data); //debug//
+      navigate(`/main/post/${res.data._id}`);
     } catch (err) {
       console.log(err.response.data); //debug//
-      alert(`${err.response.data} 😭`);
+      if (err.response.status === 401) alert(`${err.response.data.reason} 🤯`);
+      else alert(`${err.response.data} 🤯`);
     }
-
-    navigate("/main");
   };
 
   return (

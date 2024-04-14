@@ -32,8 +32,8 @@ function App() {
     SIGNIN: "/main/login",
     // SIGNUP: "/main/signup",
     POST: "/main/posting",
-    FINDPOST: "/main/post/:post_id",
-    MODIFYPOST: "/main/post/modify/:post_id",
+    FINDPOST: "/main/post/:postId",
+    MODIFYPOST: "/main/post/modify/:postId",
     NOTFOUND: "/",
   };
   return (

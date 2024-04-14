@@ -1,12 +1,8 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 // import { Link } from "react-router-dom";
 // import * as API from "../../../utils/api";
 
-export default function GetPostOne({ postlike, post }) {
-  useEffect(() => {
-    console.log(`rerender occured`);
-  }, [postlike]);
-
+export default function GetPostOne({ post }) {
   const postDate = useMemo(() => {
     if (!post || !post.createdAt) {
       return null;

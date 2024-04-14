@@ -16,6 +16,7 @@ export default function SignUp({ onSubmit }) {
     const confirmPassword = confirmPasswordRef.current.value;
 
     if (id.length === 0 || nickname.length === 0 || password.length === 0) {
+      alert("폼을 모두 채워주세요.");
       return;
     }
 

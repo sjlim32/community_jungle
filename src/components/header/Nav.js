@@ -10,24 +10,11 @@ function Nav({ isLoggedIn, onLogout }) {
   useEffect(() => {
     if (isLoggedIn) {
       API.get("/community/user/username").then((res) => {
-        console.log(`hello world`, res.data); //debug//
+        console.log(`Nav bar - hello world : `, res.data); //debug//
         setUsername(res.data.name);
       });
     }
   }, [isLoggedIn]);
-
-  // const handleUserName = useCallback(async () => {
-  //   const userInfo = await API.get("/community/user/username");
-  //   setUsername(userInfo.data.name);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(`useEffect`);
-  //   if (isLoggedIn) {
-  //     console.log(`useEffect- set`);
-  //     handleUserName();
-  //   }
-  // }, [isLoggedIn, handleUserName]);
 
   const handleLogout = (e) => {
     e.preventDefault();
