@@ -11,16 +11,20 @@ export default function CommunityPostingPage() {
     const { title, content } = post;
 
     try {
+      const writer = await API.get("/community/user/userName");
+      console.log(`writer ?`, writer.data);
+
       const res = await API.post("/community/post", {
         title,
         content,
+        writer: writer.data,
       });
 
       console.log(res); //debug//
       alert("게시물이 등록되었습니다! 😁");
     } catch (err) {
       console.log(err.response.data); //debug//
-      alert("게시물이 등록되지 않았습니다. 😭");
+      alert(`${err.response.data} 😭`);
     }
 
     navigate("/main");

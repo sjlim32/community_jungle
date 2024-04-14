@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/header/header";
 import Opening from "./pages/opening";
@@ -11,6 +11,21 @@ import CommunityModifyPage from "./pages/community/communityModifyPage";
 // "start": "HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   const ROUTES = {
     WELCOME: "/",
     MAIN: "/main",
@@ -24,11 +39,11 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <Routes>
           <Route path={ROUTES.WELCOME} element={<Opening />} />
-          <Route path={ROUTES.MAIN} element={<Main />} />
-          <Route path={ROUTES.SIGNIN} element={<SignIn />} />
+          <Route path={ROUTES.MAIN} element={<Main isLoggedIn={isLoggedIn} />} />
+          <Route path={ROUTES.SIGNIN} element={<SignIn onLogin={handleLogin} />} />
           {/* <Route path={ROUTES.SIGNUP} element={<SignUp />} /> */}
           <Route path={ROUTES.POST} element={<CommunityPostingPage />} />
           <Route path={ROUTES.FINDPOST} element={<CommunitySinglePage />} />

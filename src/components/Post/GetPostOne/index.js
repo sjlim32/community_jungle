@@ -1,12 +1,17 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 // import { Link } from "react-router-dom";
 // import * as API from "../../../utils/api";
 
-export default function GetPostOne({ post }) {
+export default function GetPostOne({ postlike, post }) {
+  useEffect(() => {
+    console.log(`rerender occured`);
+  }, [postlike]);
+
   const postDate = useMemo(() => {
     if (!post || !post.createdAt) {
       return null;
     }
+
     const createdAt = post.createdAt;
     const year = createdAt.substring(0, 4);
     const month = createdAt.substring(5, 7);
@@ -39,13 +44,13 @@ export default function GetPostOne({ post }) {
         </section>
         <section id="Info" className="h-16 w-full px-4 mb-16 mx-auto flex flex-row justify-evenly">
           <div className="w-2/5 flex mr-4 justify-center border-b-2 border-gray items-center text-2xl">
-            작성자 : <div className="w-60 flex justify-center items-center text-2xl text-white"> 없음 </div>
+            작성자 : <div className="w-60 flex justify-center items-center text-2xl text-white"> {post.writer} </div>
           </div>
           <div className="w-2/5 flex mr-4 justify-center border-b-2 border-gray items-center text-2xl">
             작성일시 : {postDate}
           </div>
           <div className="w-1/5 flex mr-4 justify-center border-b-2 border-gray items-center text-2xl">
-            좋아요 : <div className="w-24 flex justify-center items-center text-xl text-white">없음</div>
+            좋아요 : <div className="w-24 flex justify-center items-center text-xl text-white">{post.likes}</div>
           </div>
           <div className="w-1/5 flex justify-center border-b-2 border-gray items-center text-2xl">
             댓글 : <div className="w-24 flex justify-center items-center text-xl text-white">없음</div>

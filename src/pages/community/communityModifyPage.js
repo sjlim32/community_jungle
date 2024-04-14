@@ -22,7 +22,7 @@ export default function CommunityModifyPage() {
       alert("게시물이 수정되었습니다! 😁");
     } catch (err) {
       console.log(err.response.data); //debug//
-      alert("게시물이 수정되지 않았습니다. 😭");
+      alert(`${err.response.data} 😭`);
     }
 
     navigate(`/main/post/${post_id}`);

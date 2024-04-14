@@ -60,11 +60,13 @@ export default function CreatePost({ onSubmit }) {
             onChange={() => handleInputChange(titleRef)}
             ref={titleRef}
             placeholder="제목을 입력해 주세요."
-            maxlength="50"
+            maxLength="50"
             autoComplete="off"
             required
           ></input>
-          {titleValid && <p className="pt-2 text-2xl text-center">제목은 0자 이상, 50자 이하로 입력해 주세요.</p>}
+          {titleValid && (
+            <p className="font-Im pt-2 text-2xl text-center">제목은 0자 이상, 50자 이하로 입력해 주세요.</p>
+          )}
         </div>
         <div
           className="min-h-full w-11/12 mb-16 flex flex-col mx-auto
@@ -81,13 +83,13 @@ export default function CreatePost({ onSubmit }) {
             name="content"
             onChange={() => handleInputChange(contentRef)}
             ref={contentRef}
-            maxlength="500"
+            maxLength="500"
             placeholder="내용을 입력해 주세요."
             autoComplete="off"
             required
           ></textarea>
           {contentValid && (
-            <p className="pt-2 mb-4 text-2xl text-center">내용은 0자 이상, 500자 이하로 입력해 주세요.</p>
+            <p className="pt-2 mb-4 font-Im text-2xl text-center">내용은 0자 이상, 500자 이하로 입력해 주세요.</p>
           )}
           <div
             className="w-3/5 py-8 mb-4 mx-auto flex flex-row justify-evenly

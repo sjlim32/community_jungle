@@ -1,11 +1,13 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import SignUp from "../../components/User/SignUp";
 import SignIn from "../../components/User/SignIn";
 import useToggle from "../../hooks/useToggle";
 import * as API from "../../utils/api";
+// import { axiosInstance } from "../../utils/axiosInstance"; // refreshToken을 통한 token 재발급 구현하다 중지
+// import { setAccessToken, setRefreshToken } from "../../utils/storage/Cookie"; // token을 cookie에 담으려다 중지
 
-export default function SignInPage() {
+export default function SignInPage({ onLogin }) {
   const navigate = useNavigate();
   const { isOn, toggle } = useToggle(false);
 
@@ -13,26 +15,20 @@ export default function SignInPage() {
     const { id, password } = formData;
 
     try {
-      // const { data } = await axios.post(
-      //   "http://localhost:8080/community/user/login",
-      //   { id, password },
-      //   { withCredentials: true }
-      // );
-
-      // axios.defaults.headers.common["Authorization"] = `Bearer ${data["token"]}`;
+      // const res = await axiosInstance.API.post("/community/user/login", { id, password }, { withCredentials: true });
       const res = await API.post("/community/user/login", { id, password }, { withCredentials: true });
+      console.log(res.data);
 
-      const cookies = res.headers["set-cookie"];
-      console.log("Received cookies:", cookies);
-
-      console.log("login Complete ! =", res); //debug
+      // setAccessToken(res.data.access_token);
+      // setRefreshToken(res.data.refresh_token);
+      localStorage.setItem("token", res.data.access_token);
+      localStorage.setItem("refresh", res.data.refresh_token);
+      onLogin();
       alert("로그인 성공! 🥳");
+      navigate("/main");
     } catch (err) {
-      console.log(err.response.data); //debug
-      alert("로그인 실패. 🥺");
+      alert(`${err.response.data} 🥺`);
     }
-
-    // navigate("/main");
   };
 
   const handleSingUp = async (formData) => {
@@ -43,12 +39,11 @@ export default function SignInPage() {
 
       console.log("singUp Complete ! =", res.data.id, res.data.nickname); //debug
       alert("정상적으로 가입되었습니다! 🥰");
+      // navigate("/main");
     } catch (err) {
       console.log(err.response.data.message, err); //debug
       alert("가입에 실패했습니다. 😧");
     }
-
-    navigate("/main");
   };
 
   return (

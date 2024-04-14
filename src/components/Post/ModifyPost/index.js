@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import * as API from "../../../utils/api";
 
 export default function ModifyPost({ onSubmit, post_id }) {
+  const navigate = useNavigate();
+
   const [titleValid, setTitleValid] = useState(false);
   const [contentValid, setContentValid] = useState(false);
+  const [pastPose, setPastPost] = useState("");
+  const [user, serUser] = useState();
 
   const formRef = useRef();
   const titleRef = useRef();
   const contentRef = useRef();
-
-  const [pastPose, setPastPost] = useState("");
 
   const handleInputChange = (ref) => {
     const inputLength = ref.current.value.length;
@@ -24,15 +26,28 @@ export default function ModifyPost({ onSubmit, post_id }) {
   };
 
   useEffect(() => {
+    const getUser = async () => {
+      const userInfo = await API.get(`/community/user/username`);
+      serUser(userInfo.data._id);
+    };
+    getUser();
+    console.log(`user`, user);
+
     API.get(`/community/post/${post_id}`)
       .then((res) => {
-        setPastPost(res.data);
+        console.log(`post`, res);
+        if (user === res.data.writer_id) {
+          setPastPost(res.data);
+        } else {
+          navigate(-1);
+          alert(`게시물 작성자 본인만 수정할 수 있습니다.`);
+        }
       })
       .catch((err) => {
         console.log(err.response.data);
         alert("게시물 정보를 받아오지 못했습니다. 😱");
       });
-  }, [post_id]);
+  }, [user, post_id, navigate]);
 
   const submitModifyPost = (e) => {
     e.preventDefault();
@@ -80,7 +95,9 @@ export default function ModifyPost({ onSubmit, post_id }) {
             defaultValue={pastPose.title}
             required
           ></input>
-          {titleValid && <p className="pt-2 text-2xl text-center">제목은 0자 이상, 50자 이하로 입력해 주세요.</p>}
+          {titleValid && (
+            <p className="font-Im pt-2 text-2xl text-center">제목은 0자 이상, 50자 이하로 입력해 주세요.</p>
+          )}
         </div>
         <div
           className="min-h-full w-11/12 mb-16 flex flex-col mx-auto
@@ -104,7 +121,7 @@ export default function ModifyPost({ onSubmit, post_id }) {
             required
           ></textarea>
           {contentValid && (
-            <p className="pt-2 mb-4 text-2xl text-center">내용은 0자 이상, 500자 이하로 입력해 주세요.</p>
+            <p className="pt-2 mb-4 font-Im text-2xl text-center">내용은 0자 이상, 500자 이하로 입력해 주세요.</p>
           )}
           <div
             className="w-3/5 py-8 mb-4 mx-auto flex flex-row justify-evenly

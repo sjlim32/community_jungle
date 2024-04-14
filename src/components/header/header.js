@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import Title from "./title";
 import Nav from "./Nav";
 
-function Navbar() {
+function Navbar({ isLoggedIn, onLogout }) {
   const location = useLocation();
   const shouldRenderHeaderAndNav = location.pathname.includes("/main");
 
@@ -12,8 +12,8 @@ function Navbar() {
 
   return (
     <>
-      <Title />
-      <Nav />
+      <Title isLoggedIn={isLoggedIn} />
+      <Nav isLoggedIn={isLoggedIn} onLogout={onLogout} />
     </>
   );
 }
