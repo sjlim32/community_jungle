@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
+import passport from "passport";
 
 import { postRouter, userRouter } from "./routes/index.js";
 import { errorHandler, responseHandler } from "./middlewares/index.js";
+import passportConfig from "./middlewares/passport.js";
 
 const app = express();
 
@@ -15,6 +17,9 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(passport.initialize());
+passportConfig(passport);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

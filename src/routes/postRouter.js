@@ -1,12 +1,26 @@
 import express from "express";
-import { getPost, getPostOne, createPost, deletePost, modifyPost } from "../controllers/postController.js";
+import {
+  getPost,
+  getPostOne,
+  createPost,
+  deletePost,
+  modifyPost,
+  addLike,
+  removeLike,
+} from "../controllers/postController.js";
+import { loginRequired } from "../middlewares/loginRequired.js";
 
 const postRouter = express.Router();
 
+//! Posts
 postRouter.get("/", getPost);
-postRouter.post("/", createPost);
+postRouter.post("/", loginRequired, createPost);
 postRouter.get("/:id", getPostOne);
-postRouter.delete("/:id", deletePost);
-postRouter.patch("/:id", modifyPost);
+postRouter.delete("/:id", loginRequired, deletePost);
+postRouter.patch("/:id", loginRequired, modifyPost);
+
+//! Likes
+postRouter.post("/like/:id", loginRequired, addLike);
+postRouter.post("/dislike/:id", loginRequired, removeLike);
 
 export { postRouter };

@@ -3,11 +3,13 @@ import { model, Schema } from "mongoose";
 const UserSchema = new Schema({
   id: {
     type: String,
-    required: true,
+    maxLength: 30,
     unique: true,
+    required: true,
   },
   nickname: {
     type: String,
+    maxLength: 20,
     required: true,
   },
   password: {
@@ -17,7 +19,14 @@ const UserSchema = new Schema({
   admin: {
     type: Boolean,
     required: true,
+    default: false,
   },
+  likedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
   createdAt: {
     type: Date,
     default: () => Date.now() + 9 * 60 * 60 * 1000, // 서버의 시간대 설정에 의존
