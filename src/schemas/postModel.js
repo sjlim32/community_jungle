@@ -24,6 +24,10 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  totalComments: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: () => Date.now() + 9 * 60 * 60 * 1000, // 서버의 시간대 설정에 의존

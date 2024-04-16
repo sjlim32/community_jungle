@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 function loginRequired(req, res, next) {
   const userToken = req.headers["authorization"]?.split(" ")[1];
-  console.log(`middleware-userToken :::`, userToken); //debug//
+  console.log(`::: middleware-userToken :::`); //debug//
   if (!userToken || userToken === "null") {
     res.status(401).json({
       result: "Unauthorized-approach",
@@ -14,6 +14,7 @@ function loginRequired(req, res, next) {
 
   try {
     const jwtDecoded = jwt.verify(userToken, process.env.PRIVATE_SECRET_KEY);
+    console.log(`::: middleware-jwtDecoded :::`); //debug//
     req.user = jwtDecoded;
     next();
   } catch (error) {

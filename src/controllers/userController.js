@@ -1,9 +1,10 @@
-import { userService } from "../services/userService.js";
+import { userService } from "../services/index.js";
 
 class UserController {
   async signUp(req, res, next) {
     const userInfo = req.body;
     try {
+      console.log("try signUp = ", userInfo); //debug
       req.data = await userService.addUser(userInfo);
       next();
     } catch (err) {
@@ -43,7 +44,7 @@ class UserController {
       if (!userToken) next(err);
       const user = await userService.getUser(userToken);
 
-      console.log(`getUserName = user`, user.nickname); //debug//
+      console.log(`getUserName - user { ${user.nickname} }`); //debug//
       req.data = { _id: user._id, name: user.nickname, likedPosts: user.likedPosts };
       next();
     } catch (err) {

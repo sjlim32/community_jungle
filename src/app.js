@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import passport from "passport";
 
-import { postRouter, userRouter } from "./routes/index.js";
+import { postRouter, userRouter, commentRouter } from "./routes/index.js";
 import { errorHandler, responseHandler } from "./middlewares/index.js";
 import passportConfig from "./middlewares/passport.js";
 
@@ -27,8 +27,8 @@ app.get("/", (req, res) => {
 
 app.use("/community/post", postRouter);
 app.use("/community/user", userRouter);
+app.use("/community/comment", commentRouter);
 // app.use("/api", categoryRouter);
-// app.use("/api", replyRouter);
 
 app.use(errorHandler);
 app.use(responseHandler);

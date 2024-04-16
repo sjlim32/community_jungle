@@ -9,7 +9,6 @@ class UserService {
 
   async addUser(userInfo) {
     const { id, nickname, password } = userInfo;
-    console.log("try signUp = ", userInfo); //debug
 
     const findUser = await this.User.findOne({ id: id });
     if (findUser) throw new Error(`존재하는 사용자 입니다.`);
@@ -37,9 +36,8 @@ class UserService {
   }
 
   async getUser(access_token) {
-    const user = await User.findById({ _id: access_token.userCode});
-    console.log(`getUser - user`, user.nickname);  //debug//
-    if (!user) throw new Error(`DB에서 일치하는 사용자를 찾지 못했습니다.`)
+    const user = await User.findById({ _id: access_token.userCode });
+    if (!user) throw new Error(`DB에서 일치하는 사용자를 찾지 못했습니다.`);
 
     return user;
   }

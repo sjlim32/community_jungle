@@ -18,7 +18,7 @@ export const getPost = async (req, res) => {
 
 //! *** 게시글 하나만 불러오기 *** !//
 export const getPostOne = async (req, res) => {
-  console.log("getOne = ", req.params); //debug//
+  console.log("getPostOne = ", req.params); //debug//
   const post_id = req.params.id;
   try {
     if (!Types.ObjectId.isValid(post_id)) throw new Error(`유효하지 않은 게시물 ID입니다.`);
@@ -36,7 +36,7 @@ export const getPostOne = async (req, res) => {
 //! *** 게시글 등록 *** !//
 export const createPost = async (req, res) => {
   const { title, content, writer } = req.body;
-  console.log(`body`, req.body);
+  console.log(`body`, req.body); //debug//
   const newPost = {
     title,
     writer: writer.name,
@@ -52,7 +52,7 @@ export const createPost = async (req, res) => {
     res.status(201).json(post);
   } catch (err) {
     console.error("createPost FAILED !!"); //debug//
-    res.status(401).json(err.message);
+    res.status(500).json(err.message);
   }
 };
 
@@ -76,7 +76,7 @@ export const modifyPost = async (req, res) => {
     res.status(200).json(updatePost);
   } catch (err) {
     console.error("modifyPost FAILED !!"); //debug//
-    res.status(401).json(err.message);
+    res.status(500).json(err.message);
   }
 };
 
@@ -98,7 +98,7 @@ export const deletePost = async (req, res) => {
     res.status(200).json(deletePost);
   } catch (err) {
     console.error("deltePost - Failed"); //debug//
-    res.status(401).json(err.message);
+    res.status(500).json(err.message);
   }
 };
 
@@ -164,5 +164,3 @@ export const removeLike = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
-
-//! *** 댓글 달기 *** !//
