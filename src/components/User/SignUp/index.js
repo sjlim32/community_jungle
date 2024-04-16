@@ -32,7 +32,7 @@ export default function SignUp({ onSubmit }) {
     };
 
     onSubmit(formData);
-    formRef.current.reset();
+    // formRef.current.reset();
   };
 
   return (

@@ -17,7 +17,6 @@ export default function SignInPage({ onLogin }) {
     try {
       // const res = await axiosInstance.API.post("/community/user/login", { id, password }, { withCredentials: true });
       const res = await API.post("/community/user/login", { id, password }, { withCredentials: true });
-      console.log(res.data);
 
       // setAccessToken(res.data.access_token);
       // setRefreshToken(res.data.refresh_token);
@@ -27,7 +26,8 @@ export default function SignInPage({ onLogin }) {
       alert("로그인 성공! 🥳");
       navigate("/main");
     } catch (err) {
-      alert(`${err.response.data} 🥺`);
+      if (err.response.status === 404) return alert(`${err.response.data} 🥺`);
+      alert("로그인 실패 🥺");
     }
   };
 
@@ -36,12 +36,12 @@ export default function SignInPage({ onLogin }) {
 
     try {
       const res = await API.post("/community/user/signup", { id, nickname, password });
+      if (!res) throw new Error("가입 실패");
 
-      console.log("singUp Complete ! =", res.data.id, res.data.nickname); //debug
       alert("정상적으로 가입되었습니다! 🥰");
       toggle();
     } catch (err) {
-      console.log(err.response.data.message, err); //debug
+      if (err.response.status === 404) return alert(`${err.response.data} 😧`);
       alert("가입에 실패했습니다. 😧");
     }
   };

@@ -34,7 +34,7 @@ export default function GetPostOne({ post }) {
     return (
       <div className="min-h-128 text-gray-400">
         <section id="Title" className="min-h-24 px-4 mb-8 flex flex-row justify-evenly">
-          <div className="w-full p-4 pb-8 mt-12 font-bold flex justify-around items-center border-b-4 border-gray text-2xl">
+          <div className="w-full p-4 pb-8 mt-12 flex justify-around items-center border-b-4 border-gray text-2xl">
             제목 : <div className="w-11/12 flex justify-start items-center text-3xl text-white">{post.title}</div>
           </div>
         </section>
@@ -49,12 +49,12 @@ export default function GetPostOne({ post }) {
             좋아요 : <div className="w-24 flex justify-center items-center text-xl text-white">{post.likes}</div>
           </div>
           <div className="w-1/5 flex justify-center border-b-2 border-gray items-center text-2xl">
-            댓글 : <div className="w-24 flex justify-center items-center text-xl text-white">없음</div>
+            댓글 : <div className="w-24 flex justify-center items-center text-xl text-white">{post.totalComments}</div>
           </div>
         </section>
         <article
           id="Content"
-          className="min-h-64 mx-4 font-bold flex flex-col p-4 border-y-2 border-gray text-3xl text-white
+          className="min-h-64 mx-4 flex flex-col p-4 border-y-2 border-gray text-3xl text-white
           whitespace-pre-wrap"
         >
           {post.content}

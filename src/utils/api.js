@@ -54,7 +54,7 @@ async function patch(endpoint, data) {
 // 아래 함수명에 관해, delete 단어는 자바스크립트의 reserved 단어이기에,
 // 여기서는 우선 delete 대신 del로 쓰고 아래 export 시에 delete로 alias 함.
 async function del(endpoint, params = "") {
-  console.log(`DELETE 요청 ${serverUrl + endpoint + "/" + params}`);
+  console.log(`%cDELETE 요청 ${serverUrl + endpoint + "/" + params}`, "color: #c36999");
   return axios.delete(serverUrl + endpoint + "/" + params, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,

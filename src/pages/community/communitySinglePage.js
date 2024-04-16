@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import * as API from "../../utils/api";
@@ -18,20 +18,22 @@ export default function CommunitySinglePage() {
   const { postId } = useParams();
   const navigate = useNavigate();
 
+  //* 댓글 조회 api
   const fetchComments = useCallback(async () => {
     const res = await API.get(`/community/comment/${postId}/all`);
-    console.log(`comment res data`, res.data); //debug//
-
     setComments(res.data);
   }, [postId]);
 
-  //* 댓글 조회 api
+  //* 게시글 조회 api
   const fetchPost = useCallback(async () => {
-    const res = await API.get(`/community/post/${postId}`);
-    if (!res) throw new Error(res.data);
-
-    console.log(`post res data`, res.data); //debug//
-    setPost(res.data);
+    try {
+      const res = await API.get(`/community/post/${postId}`);
+      if (!res) throw new Error(`댓글 조회 실패`);
+      setPost(res.data);
+    } catch (err) {
+      if (err.response.status === 404) return alert(`${err.response.data} 😱`);
+      alert(`${err.response.data.reason} 😱`);
+    }
   }, [postId]);
 
   //* 최초 페이지 loading
@@ -40,7 +42,6 @@ export default function CommunitySinglePage() {
       fetchPost();
       fetchComments();
     } catch (err) {
-      console.log(err.response.data); //debug//
       alert(`${err.response.data}😱`);
       navigate("/main");
     }
@@ -56,7 +57,6 @@ export default function CommunitySinglePage() {
     if (localStorage.getItem("token")) {
       API.get("/community/user/username").then((res) => {
         setUser(res.data);
-        console.log(`singlePage - useEffect(like) : `, res.data); //debug//
         setLike(res.data.likedPosts.includes(postId));
       });
     }
@@ -66,7 +66,6 @@ export default function CommunitySinglePage() {
   const handleSubmit = useCallback(
     async (comment) => {
       const { commentContent, writer } = comment;
-      console.log(`postId`, postId);
 
       try {
         const res = await API.post(`/community/comment/${postId}`, {
@@ -74,16 +73,16 @@ export default function CommunitySinglePage() {
           content: commentContent,
           writer_id: writer._id,
         });
+        if (!res) throw new Error(`댓글 등록 실패`);
 
-        console.log(res); //debug//
         toast.success("댓글이 등록되었습니다! 😁"); // Success 알림
         fetchComments();
       } catch (err) {
-        console.log(err.response.data); //debug//
         if (err.response.status === 401) toast.error(`${err.response.data.reason} 🤯`);
         else toast.error(`${err.response.data} 🤯`);
       }
     },
+
     [postId, fetchComments]
   );
 
@@ -92,13 +91,11 @@ export default function CommunitySinglePage() {
     e.preventDefault();
     try {
       const res = await API.delete(`/community/post/${postId}`);
-      console.log(`delete Post`, res); //debug//
+      if (!res) throw new Error(`게시물 삭제 실패`);
 
-      console.log(res); //debug//
       toast.success("게시물이 삭제되었습니다! 😇");
       navigate("/main");
     } catch (err) {
-      console.log(`delete Err`, err.response); //debug
       if (err.response.status === 401) toast.error(`${err.response.data.reason} 🤯`);
       else toast.error(`${err.response.data} 🤯`);
     }
@@ -114,7 +111,6 @@ export default function CommunitySinglePage() {
       toast.success("게시물 좋아요 성공 !");
       setLike(true);
       fetchPost();
-      // window.location.reload();
     } catch (err) {
       if (err.response.status === 401) toast.error(`${err.response.data.reason} 🤯`);
       else toast.error(`${err.response.data} 🤯`);
@@ -126,7 +122,7 @@ export default function CommunitySinglePage() {
     e.preventDefault();
     try {
       const res = await API.post(`/community/post/dislike/${postId}`);
-      if (!res) throw new Error(`게시물 좋아요 취소를 실패`);
+      if (!res) throw new Error(`게시물 좋아요 취소 실패`);
 
       toast.success("게시물 좋아요 취소 !");
       setLike(false);
@@ -185,20 +181,12 @@ export default function CommunitySinglePage() {
           </button>
         </section>
       </article>
-      <ToastContainer
-        position="top-center"
-        style={{ width: "30rem", textAlign: "center" }}
-        limit={2}
-        closeButton={true}
-        autoClose={2000}
-        hideProgressBar
-      />
       <div
         className="w-11/12 min-h-60 my-12 pb-12 mx-auto bg-custom-dark rounded-b-2xl shadow-2xl shadow-custom-dark
         flex flex-col"
       >
         <CreateComment user={user} onSubmit={handleSubmit} />
-        <GetPostComments commentList={comments} />
+        <GetPostComments getCommentList={fetchComments} commentList={comments} />
       </div>
     </>
   );

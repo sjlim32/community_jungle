@@ -9,7 +9,6 @@ export default function Main({ isLoggedIn }) {
 
   useEffect(() => {
     API.get("/community/post").then((res) => {
-      console.log(res.data); //debug//
       setPostList(res.data);
     });
   }, []);

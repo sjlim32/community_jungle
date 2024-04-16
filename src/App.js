@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
 import Header from "./components/header/header";
 import Opening from "./pages/opening";
 import Main from "./pages/community/main";
@@ -18,7 +20,7 @@ function App() {
       setIsLoggedIn(true);
     }
   }, []);
-  
+
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
@@ -38,6 +40,17 @@ function App() {
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        style={{ width: "25rem", textAlign: "center" }}
+        limit={4}
+        pauseOnHover={false}
+        closeButton={true}
+        autoClose={1500}
+        theme="colored"
+        stacked
+        hideProgressBar
+      />
       <Router>
         <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <Routes>

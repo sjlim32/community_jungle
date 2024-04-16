@@ -17,11 +17,10 @@ export default function CommunityModifyPage() {
         title,
         content,
       });
+      if (!res) throw new Error("게시물 수정 실패");
 
-      console.log(res); //debug//
       alert("게시물이 수정되었습니다! 😁");
     } catch (err) {
-      console.log(err.response.data); //debug//
       if (err.response.status === 401) alert(`${err.response.data.reason} 🤯`);
       else alert(`${err.response.data} 🤯`);
     }

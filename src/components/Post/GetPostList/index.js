@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 export default function GetPostList({ posts }) {
   const showPost = useCallback(() => {
     return posts.map((post, idx) => {
-      // console.log(post);
-      const { _id, title, writer, likes, createdAt } = post;
+      const { _id, title, writer, likes, totalComments, createdAt } = post;
       const date = createdAt.substring(2, 10).replaceAll("-", ". ");
       const time = createdAt.substring(11, 16);
 
@@ -22,11 +21,11 @@ export default function GetPostList({ posts }) {
           >
             <div className={"w-96"}>{title}</div>
             <div className={"w-56"}>{writer}</div>
-            <div className={"w-56"}>
+            <div className={"w-44 text-zinc-600 text-xl"}>
               {date}, {time}
             </div>
-            <div className={"w-36"}>{likes}</div>
-            <div className={"w-36"}>없음</div>
+            <div className={"w-20 text-zinc-600 text-xl"}>{likes}</div>
+            <div className={"w-20 text-zinc-600 text-xl"}>{totalComments}</div>
           </Link>
         );
     });
@@ -36,14 +35,14 @@ export default function GetPostList({ posts }) {
     <div className="mt-8 flex flex-col">
       <p
         className="w-10/12 h-12 mb-4 mx-auto 
-      flex justify-evenly font-DOTBOGI items-center text-3xl text-white
+      flex justify-evenly font-DOTBOGI items-center text-2xl text-white
       bg-custom-dark shadow-2xl shadow-custom-dark"
       >
         <span className={"w-96"}>제목</span>
         <span className={"w-56"}>글쓴이</span>
-        <span className={"w-56"}>작성일시</span>
-        <span className={"w-36"}>좋아요 수</span>
-        <span className={"w-36"}>댓글 수</span>
+        <span className={"w-44"}>작성일시</span>
+        <span className={"w-20"}>좋아요</span>
+        <span className={"w-20"}>댓글</span>
       </p>
       <div className="min-h-48 mb-12">
         {!posts ? (

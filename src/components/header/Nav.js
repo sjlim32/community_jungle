@@ -10,7 +10,6 @@ function Nav({ isLoggedIn, onLogout }) {
   useEffect(() => {
     if (isLoggedIn) {
       API.get("/community/user/username").then((res) => {
-        console.log(`Nav bar - hello world : `, res.data); //debug//
         setUsername(res.data.name);
       });
     }
@@ -18,7 +17,6 @@ function Nav({ isLoggedIn, onLogout }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log(`LOG OUT !!!`); //debug//
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
     alert("로그아웃 성공!");
