@@ -34,17 +34,17 @@ export default function ModifyPost({ onSubmit, postId }) {
         serUser(userInfo.data._id);
 
         const res = await API.get(`/community/post/${postId}`);
-
         if (userInfo.data._id === res.data.writer_id) {
           setPastPost(res.data);
         } else {
           alert(`게시물 작성자 본인만 수정할 수 있습니다.`);
+          navigate(`/main/post/${postId}`);
         }
       } catch (err) {
         alert(`${err.response.data.reason} 😱`);
+        navigate(`/main/post/${postId}`);
       }
     };
-    navigate(`/main/post/${postId}`);
     fetchPost();
   }, [user, postId, navigate]);
 

@@ -37,7 +37,7 @@ export default function GetPostComments({ getCommentList, commentList }) {
         });
         if (!res) throw new Error(`댓글 삭제 실패`);
 
-        toast.success("댓글이 삭제되었습니다!");
+        toast.error("댓글이 삭제되었습니다!");
         getCommentList();
       } catch (err) {
         if (err.response.status === 404) return alert(`${err.response.data} 😱`);

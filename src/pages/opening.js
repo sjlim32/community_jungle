@@ -14,7 +14,7 @@ export default function Opening() {
         </p>
         <p className="text-3xl text-inherit">
           처음이시라면 :{"   "}
-          <Link className="text-5xl hover:text-white" to="/main/signup">
+          <Link className="text-5xl hover:text-white" to="/main/login">
             회원가입으로
           </Link>
         </p>

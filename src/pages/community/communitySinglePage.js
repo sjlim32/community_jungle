@@ -90,10 +90,10 @@ export default function CommunitySinglePage() {
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.delete(`/community/post/${postId}`);
+      const res = await API.delete(`/community/post/del/${postId}`);
       if (!res) throw new Error(`게시물 삭제 실패`);
 
-      toast.success("게시물이 삭제되었습니다! 😇");
+      toast.error("게시물이 삭제되었습니다! 😇");
       navigate("/main");
     } catch (err) {
       if (err.response.status === 401) toast.error(`${err.response.data.reason} 🤯`);
@@ -124,7 +124,7 @@ export default function CommunitySinglePage() {
       const res = await API.post(`/community/post/dislike/${postId}`);
       if (!res) throw new Error(`게시물 좋아요 취소 실패`);
 
-      toast.success("게시물 좋아요 취소 !");
+      toast.error("게시물 좋아요 취소 !");
       setLike(false);
       fetchPost();
     } catch (err) {

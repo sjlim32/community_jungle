@@ -1,12 +1,10 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import * as API from "../../utils/api";
 import ModifyPost from "../../components/Post/ModifyPost";
 
 export default function CommunityModifyPage() {
-  const navigate = useNavigate();
-
   const { postId } = useParams();
 
   const handleSubmit = async (post) => {
@@ -21,11 +19,12 @@ export default function CommunityModifyPage() {
 
       alert("게시물이 수정되었습니다! 😁");
     } catch (err) {
+      console.log(`수정!!`);
       if (err.response.status === 401) alert(`${err.response.data.reason} 🤯`);
       else alert(`${err.response.data} 🤯`);
     }
 
-    navigate(`/main/post/${postId}`);
+    // navigate(`/main/post/${postId}`);
   };
 
   return (

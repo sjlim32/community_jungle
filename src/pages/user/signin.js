@@ -23,8 +23,9 @@ export default function SignInPage({ onLogin }) {
       localStorage.setItem("token", res.data.access_token);
       localStorage.setItem("refresh", res.data.refresh_token);
       onLogin();
+      console.log(`login res`, res);
       alert("로그인 성공! 🥳");
-      navigate("/main");
+      // navigate("/main");
     } catch (err) {
       if (err.response.status === 404) return alert(`${err.response.data} 🥺`);
       alert("로그인 실패 🥺");
