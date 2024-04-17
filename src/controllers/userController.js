@@ -18,17 +18,17 @@ class UserController {
     try {
       const { access_token, refresh_token } = await userService.logIn({ id, password });
       // ? 로컬에서는 http로 api 통신이 이루어져 https인지 확인하는 secure 때문에 set cookie 불가
-      // res.cookie("access", access_token, {
-      //   secure: true,
-      //   httpOnly: true,
-      //   sameSite: "None",
-      // });
+      res.cookie("access", access_token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+      });
 
-      // res.cookie("refresh", refresh_token, {
-      //   secure: true,
-      //   httpOnly: true,
-      //   sameSite: "None",
-      // });
+      res.cookie("refresh", refresh_token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+      });
       req.data = { access_token, refresh_token };
 
       next();

@@ -16,7 +16,7 @@ const postRouter = express.Router();
 postRouter.get("/", getPost);
 postRouter.post("/", loginRequired, createPost);
 postRouter.get("/:id", getPostOne);
-postRouter.delete("/:id", loginRequired, deletePost);
+postRouter.delete("/del/:id", loginRequired, deletePost);
 postRouter.patch("/:id", loginRequired, modifyPost);
 
 //! Likes
